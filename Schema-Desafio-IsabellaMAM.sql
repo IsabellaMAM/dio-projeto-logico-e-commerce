@@ -32,12 +32,16 @@ alter table Pedido auto_increment=1;
 
 -- criar tabela entrega
 create table Entrega(
-	idEntrega int auto_increment primary key,
+    idEntrega int auto_increment primary key,
+    idEPedido int,
+    idECliente int,
     data_envio date,
     data_prevista date,
     frete float,
     codigo_rastreio varchar(20),
-    status_entrega enum('Em Processo', 'Enviado', 'Entregue') default 'Em Processo'
+    status_entrega enum('Em Processo', 'Enviado', 'Entregue') default 'Em Processo',
+    constraint fk_entrega_pedido foreign key (idEPedido) references Pedido(idPedido),
+    constraint fk_entrega_cliente foreign key (idECliente) references Cliente(idCliente)
 );
 
 -- desc Entrega;
@@ -47,9 +51,13 @@ alter table Entrega auto_increment=1;
 -- criar tabela Pagamento
 create table Pagamento(
     idPagamento int auto_increment primary key,
+    idPPedido int,
+    idPCliente int,
     valor float,
     forma_de_pagamento varchar(45),
-    data_pagamento date
+    data_pagamento date,
+    constraint fk_pagamento_pedido foreign key (idPPedido) references Pedido(idPedido),
+    constraint fk_pagamento_cliente foreign key (idPCliente) references Cliente(idCliente)    
 );
 
 -- desc Pagamento;
